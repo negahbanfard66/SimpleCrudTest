@@ -16,10 +16,8 @@ namespace Mc2.CrusTest.Application.Customers.Validators
             RuleFor(x => x.FirstName).NotEmpty();
             RuleFor(x => x.LastName).NotEmpty();
             RuleFor(x => x.DateOfBirth).LessThan(DateTime.Now);
-            RuleFor(x => x.Email).EmailAddress().Must(BeUniqueEmail).WithMessage("Email must be unique.");
             RuleFor(x => x.PhoneNumber).Must(BeAValidPhoneNumber).WithMessage("Invalid phone number.");
             RuleFor(x => x.BankAccountNumber).NotEmpty().Must(BeAValidBankAccountNumber).WithMessage("Invalid bank account number.");
-            RuleFor(x => x).Must(BeUniqueCustomer).WithMessage("A customer with the same first name, last name, and date of birth already exists.");
         }
 
         private bool BeAValidPhoneNumber(string phoneNumber)

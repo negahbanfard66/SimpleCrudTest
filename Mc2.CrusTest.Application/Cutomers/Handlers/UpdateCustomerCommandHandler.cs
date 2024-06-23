@@ -25,17 +25,6 @@ namespace Mc2.CrusTest.Application.Customers.Handlers
                 throw new ValidationException("Customer not found.");
             }
 
-            if ( _repository.IsCustomerUnique(request.FirstName, request.LastName, request.DateOfBirth) &&
-                !(customer.FirstName == request.FirstName && customer.LastName == request.LastName && customer.DateOfBirth == request.DateOfBirth))
-            {
-                throw new ValidationException("A customer with the same first name, last name, and date of birth already exists.");
-            }
-
-            if ( _repository.IsEmailUnique(request.Email) && customer.Email != request.Email)
-            {
-                throw new ValidationException("Email must be unique.");
-            }
-
             if (customer != null)
             {
                 customer.FirstName = request.FirstName;

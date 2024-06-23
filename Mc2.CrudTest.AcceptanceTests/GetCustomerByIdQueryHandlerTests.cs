@@ -1,5 +1,8 @@
 ﻿using Mc2.CrudTest.Domain.Entities;
+using Mc2.CrudTest.Domain.Interfaces;
+using Mc2.CrusTest.Application.Customers.Handlers;
 using Mc2.CrusTest.Application.Cutomers.Queries;
+using Moq;
 using NUnit.Framework;
 
 namespace Mc2.CrudTest.AcceptanceTests
@@ -7,12 +10,18 @@ namespace Mc2.CrudTest.AcceptanceTests
     [TestFixture]
     public class GetCustomerByIdQueryHandlerTests
     {
+        private Mock<ICustomerRepository> _repositoryMock;
+        private GetCustomerByIdQueryHandler _handler;
 
         [SetUp]
-        public void SetUp(){}
+        public void SetUp()
+        {
+            _repositoryMock = new Mock<ICustomerRepository>();
+            _handler = new GetCustomerByIdQueryHandler(_repositoryMock.Object);
+        }
 
         [Test]
-        public void Handle_ShouldReturnCustomer_WhenCustomerExists()
+        public async Task Handle_ShouldReturnCustomer_WhenCustomerExists()
         {
             var query = new GetCustomerByIdQuery
             {
@@ -29,15 +38,26 @@ namespace Mc2.CrudTest.AcceptanceTests
                 Email = "john.doe@example.com",
                 BankAccountNumber = "123456789"
             };
+
+            _repositoryMock.Setup(r => r.GetByIdAsync(query.Id)).ReturnsAsync(customer);
+
+            var result = await _handler.Handle(query, CancellationToken.None);
+
+            Assert.NotNull(result);
+            Assert.AreEqual(query.Id, result.Id);
         }
 
         [Test]
-        public void Handle_ShouldReturnNull_WhenCustomerDoesNotExist()
+        public async Task Handle_ShouldReturnNull_WhenCustomerDoesNotExist()
         {
             var query = new GetCustomerByIdQuery
             {
                 Id = Guid.NewGuid()
             };
+            Customer? result = null;
+            _repositoryMock.Setup(r => r.GetByIdAsync(query.Id)).ReturnsAsync((Customer)null);
+            result = await _handler.Handle(query, CancellationToken.None);
+            Assert.IsNull(result);
         }
     }
 }

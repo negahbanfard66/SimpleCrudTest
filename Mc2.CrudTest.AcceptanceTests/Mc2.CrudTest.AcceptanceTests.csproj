@@ -7,6 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Features\CustomerManager.feature.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <SpecFlowFeatureFiles Remove="Features\CustomerManager.feature" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Using Include="TechTalk.SpecFlow" />
     </ItemGroup>
 
@@ -23,6 +31,10 @@
     <ItemGroup>
       <ProjectReference Include="..\Mc2.CrudTest.Domain\Mc2.CrudTest.Domain.csproj" />
       <ProjectReference Include="..\Mc2.CrusTest.Application\Mc2.CrusTest.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\" />
     </ItemGroup>
 
 </Project>

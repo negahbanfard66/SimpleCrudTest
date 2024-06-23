@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Mc2.CrudTest.Domain.Interfaces;
+using Mc2.CrudTest.Infrastructure.Persistence;
 using Mc2.CrusTest.Application.Customers.Validators;
 using Mc2.CrusTest.Infrastructure.Events;
 using Mc2.CrusTest.Infrastructure.Persistence;
@@ -11,9 +12,9 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("CustomerDB"));
+//builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IEventStore, EventStore>();
